@@ -1,3 +1,6 @@
+---1. Create a database as requested above.
+create database SonT2207E;
+---2. Create table based on the above design.
 create table Categories (
 	CateID char(6) primary key ,
 	CateName nvarchar(100) not null unique,
@@ -19,6 +22,7 @@ create table Parts (
 
 
 
+---3. Insert into each table at least three records.
 
 insert into Categories (CateID,CateName,Description)
 
@@ -36,8 +40,26 @@ values(N'Ram PC Kingston Fury Beast Black 32GB 5200MHz DDR','CC2022',N'This is P
 
 Select * from  Parts ;
 
----4
+---4.List all parts in the store with price > 100
 
-select * from Parts where Price >100;
+select * from Parts where Price>100;
 
----
+---5. List all parts of the category ‘CPU’
+
+select * from Parts where CateID in (select CateID from Categories where CateName like 'CPU');
+
+---6. Create a view v_Parts contains the following information (PartID, PartName, CateName,Price, Quantity) from table Parts and Categories.
+
+CREATE VIEW v_Parts AS
+select a.PartsId,a.PartsName,b.CateName,a.Price,a.Quantity from Parts a 
+left join Categories b on a.CateID = b.CateID;
+
+select * from v_Parts;
+
+--- 7.Create a view v_TopParts about 5 parts with the most expensive price
+
+
+create view v_TopParts as
+select top 5 PartsName from Parts order by Price desc;
+
+select * from v_TopParts;
